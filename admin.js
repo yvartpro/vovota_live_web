@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Configuration
-    const PUBLISH_NEWS_URL = 'https://vovota.com/api/news/publish'; // REPLACE WITH ACTUAL ENDPOINT
+    const PUBLISH_NEWS_URL = 'https://bsm.vmgburundi.com/api/posts/';
     
     // Elements
     const newsForm = document.getElementById('news-form');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 5000);
         }
     };
-
+    
     newsForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -41,8 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // In a real scenario, we would use fetch:
-            /*
             const response = await fetch(PUBLISH_NEWS_URL, {
                 method: 'POST',
                 headers: {
@@ -51,19 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify(postData)
             });
 
-            if (!response.ok) throw new Error('Failed to publish news');
-            */
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Failed to publish news: ${response.status} ${errorText}`);
+            }
 
-            // Simulation for demonstration
-            console.log('Publishing news data:', postData);
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-            
             showStatus("Success! Your news post has been published.");
             newsForm.reset();
             
         } catch (error) {
             console.error('Error publishing news:', error);
-            showStatus("Failed to publish news. Please check your connection and try again.", true);
+            showStatus(`Failed to publish news: ${error.message}`, true);
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = "Publish Post Now";
