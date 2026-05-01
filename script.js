@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Configuration
-    const DOWNLOAD_URL = 'Programmation WEB 1.pdf'; // Local PDF file for testing
+    const DOWNLOAD_URL = 'Vovota.apk'; // Local PDF file for testing
     const COUNTDOWN_TIME = 5;
-    
+
     // Elements
     const countdownEl = document.getElementById('countdown');
     const downloadBtn = document.getElementById('download-btn');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         countdownEl.textContent = timeLeft;
         statusTitle.textContent = "Starting your download...";
         statusMessage.style.display = "block";
-        
+
         clearInterval(timerId);
         timerId = setInterval(() => {
             timeLeft--;
@@ -40,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const triggerDownload = async () => {
         statusTitle.textContent = "Your download has started!";
         statusMessage.style.display = "none";
-        
+
         try {
             // Attempt to fetch as blob to force download
             const response = await fetch(DOWNLOAD_URL);
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
-            
+
             const link = document.createElement('a');
             link.href = url;
             link.download = DOWNLOAD_URL.split('/').pop(); // Use filename from URL
